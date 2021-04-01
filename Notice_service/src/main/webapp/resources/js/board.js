@@ -1,7 +1,7 @@
 $(function(){
     let offset = getParam("offset");
     
-    let curPage = (Number(offset)/15);
+    let curPage = (Number(offset)/10);
     let pageCnt = 0;
     $.ajax({
         url:"/api/postCount?board_seq=2",
@@ -9,7 +9,7 @@ $(function(){
         success:function(data){
             console.log(data);
 
-            pageCnt = Math.ceil(data.count/15);
+            pageCnt = Math.ceil(data.count/10);
             console.log(pageCnt);
             $(".pagers").html(""); // .pagers 내부 HTML 삭제
             let start = 0;
@@ -23,12 +23,12 @@ $(function(){
             for(let i=start; i<pageCnt; i++){
                 let template;
                 
-                if(offset == i*15){
-                    template='<a href="/notice?offset='+i*15+'" class="current">'+(i+1)+'</a>';
+                if(offset == i*10){
+                    template='<a href="/notice?offset='+i*10+'" class="current">'+(i+1)+'</a>';
 
                 }
                 else {
-                    template='<a href="/notice?offset='+i*15+'">'+(i+1)+'</a>';
+                    template='<a href="/notice?offset='+i*10+'">'+(i+1)+'</a>';
 
                 }
                 
@@ -41,25 +41,25 @@ $(function(){
     })
 
     $("#prev_page").click(function(){
-        let newOffset = offset - 15;
+        let newOffset = offset - 10;
         if(newOffset < 0) return;
         location.href="/notice?offset="+newOffset;
     })  // 1개씩 이전
     $("#next_page").click(function(){
-        let newOffset = Number(offset) +15;
+        let newOffset = Number(offset) +10;
         console.log(newOffset, pageCnt);
-        if(newOffset/15 >= pageCnt) return;
+        if(newOffset/10 >= pageCnt) return;
         location.href="/notice?offset="+newOffset;
 
     })
     $("#prev_10").click(function(){
-        let newOffset = offset - 150;
+        let newOffset = offset - 100;
         if(newOffset < 0) newOffset = 0;
         location.href="/notice?offset="+newOffset;
     }) //10개씩 이전
     $("#next_10").click(function(){
-        let newOffset = Number(offset) + 150;
-        if(newOffset/15 >= pageCnt) newOffset = (pageCnt-1)*15;
+        let newOffset = Number(offset) + 100;
+        if(newOffset/10 >= pageCnt) newOffset = (pageCnt-1)*10;
         location.href="/notice?offset="+newOffset;
     })
 
